@@ -41,23 +41,7 @@ public class FixFreeFlow extends GhidraScript {
 		ConsoleTaskMonitor taskMonitor = new ConsoleTaskMonitor();
 		taskMonitor.setMessage("Finding all functions that are being called..");
 
-		// TODO: Might it be better to get the functions that call the bad function
-		// and then see if the one we're in is in the list?
-		/*Set<Function> calledFunctions = currentFunction.getCalledFunctions(taskMonitor);
-		boolean hasCallToBad = false;
-		for (Function func : calledFunctions) {
-			if (isBadFunction(func)) {
-				hasCallToBad = true;
-				break;
-			}
-		}
-
-		if (!hasCallToBad) {
-			println("This function does not call the bad function");
-			return;
-		}*/
-
-		ReferenceManager referenceManager = this.currentProgram.getReferenceManager();		
+		ReferenceManager referenceManager = this.currentProgram.getReferenceManager();
 
 		// Get an AddressSetView of the function
 		AddressSetView body = currentFunction.getBody();
@@ -86,42 +70,7 @@ public class FixFreeFlow extends GhidraScript {
 				}
 			}
 		}
-
-		/*Instruction instruction = this.getFirstInstruction(currentFunction);
-		while (instruction != null) {
-			FlowOverride flowOverride = instruction.getFlowOverride();
-			if (flowOverride == BAD_FLOW_AFTER) {
-				println(instruction.toString());
-			}
-			instruction = instruction.getNext();
-		}*/
-
-		/*DecompInterface ifc = new DecompInterface();
-
-		// Options
-
-		ifc.openProgram(program);
-
-		taskMonitor.setMessage("Decompiling..");
-		DecompileResults res = ifc.decompileFunction(currentFunc, 0, taskMonitor);
-		if (!res.decompileCompleted()) {
-			printf("Compilation failed: %s\n", res.getErrorMessage());
-			return;
-		}
-
-		HighFunction hfunc = res.getHighFunction();
-		if (hfunc == null) {
-			printf("Failed to get high function from decompiler output");
-			return;
-		}*/
 	}
-	
-	/*private boolean isBadFunction(Function func) {
-		if (func == null) {
-			return false;
-		}
-		return func.getName().equals(this.BAD_FUNCTION_NAME);
-	}*/
 
 	private Function validateFunction(Function func) {
 		if (func == null) {
