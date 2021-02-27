@@ -32,6 +32,6 @@ Format is:
     },
 ]
 ```
-Actually, just realized that size 8 may not work. Since GSON (the json impl that Ghidra ships with) I think messes with enums of that size.  
+Actually, just realized that size 8 may not work. Since GSON (the json impl that Ghidra ships with) I think messes with values of that size by considering them as doubles first. Unsure, but make sure to test if you're using high values on an 8-byte enumeration.  
 This helps with loading enums that are generated from somewhere else. Perhaps from a list you have (like a long list of defines into json into an enum!).  
 My use case was that a dll exported a ton of strings for localization and so it would load the strings by their resource index. Wrote a script to extract all the strings, generate the json for each value and string (replacing characters which I wasn't sure ghidra would display properly), and use this GenerateEnum script to import.
